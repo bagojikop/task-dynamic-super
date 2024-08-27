@@ -1,0 +1,17 @@
+[
+    {
+        "order_no": "123456",
+        "Order_date": "dd/MM/yyy",
+        "cust_id": 1234,
+        "Amount": 586650.00,
+        "Items": [
+            {
+                "Item_Id": 1,
+                "Item_Unit": "BAG",
+                "Item_Qty": 101,
+                "Item_Rate": 300,
+                "Item_Value": 30300
+            }
+        ]
+    }
+]

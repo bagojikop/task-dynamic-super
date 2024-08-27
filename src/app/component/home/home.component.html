@@ -1,0 +1,38 @@
+<div>
+    <app-navbar></app-navbar>
+    <div class="container">
+      <form>
+        <div class="mb-3">
+          <label for="orderNumber" class="form-label">Order Number</label>
+          <input type="text" id="orderNumber" class="form-control" [(ngModel)]="orderNumber" name="orderNumber" />
+        </div>
+        <div class="mb-3">
+          <label for="orderDate" class="form-label">Date</label>
+          <input type="date" id="orderDate" class="form-control" min="2024-04-01" max="2025-03-31" (change)="formatDate($event)">
+        </div>
+        <div class="mb-3">
+          <label for="customer" class="form-label">Customer</label>
+          <select id="customer" class="form-select" [(ngModel)]="selectedCustomer" name="customer" (change)="onCustomerChange()">
+            <option value="" selected>Select</option>
+            <option *ngFor="let customer of customers" [value]="customer.acc_code">
+              {{ customer.acc_name }}
+            </option>
+          </select>
+        </div>
+      
+        <div class="container mt-4" >
+          <div *ngIf="selectedCustomerDetails" class="borderCustDetails container">
+            <h5 class="mt-1">Customer Details</h5>
+            <hr/>
+            <p><strong>Account Name:</strong> {{ selectedCustomerDetails.acc_name }}</p>
+            <p><strong>Office Address:</strong> {{ selectedCustomerDetails.address?.office || 'N/A' }}</p>
+            <p><strong>City:</strong> {{ selectedCustomerDetails.address?.place?.city }}</p>
+            <p><strong>District:</strong> {{ selectedCustomerDetails.address?.place?.district?.name }}</p>
+            <p><strong>State:</strong> {{ selectedCustomerDetails.address?.place?.district?.state }}</p>
+          </div>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+  
