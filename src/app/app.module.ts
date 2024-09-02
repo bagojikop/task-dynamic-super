@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +12,12 @@ import { NavbarComponent } from './component/navbar/navbar.component';
 import { MatLabel } from '@angular/material/form-field';
 import { MatHint } from '@angular/material/form-field';
 import {MatTableModule} from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatOptionModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +33,14 @@ import {MatTableModule} from '@angular/material/table';
     MatHint,
     MatTableModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgSelectModule,
+    MatSelectModule,
+    MatInputModule,
+    MatOptionModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule
   ],
   providers: [
     provideAnimationsAsync()

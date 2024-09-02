@@ -1,38 +1,108 @@
 <div>
-    <app-navbar></app-navbar>
-    <div class="container">
-      <form>
-        <div class="mb-3">
-          <label for="orderNumber" class="form-label">Order Number</label>
-          <input type="text" id="orderNumber" class="form-control" [(ngModel)]="orderNumber" name="orderNumber" />
-        </div>
-        <div class="mb-3">
-          <label for="orderDate" class="form-label">Date</label>
-          <input type="date" id="orderDate" class="form-control" min="2024-04-01" max="2025-03-31" (change)="formatDate($event)">
-        </div>
-        <div class="mb-3">
-          <label for="customer" class="form-label">Customer</label>
-          <select id="customer" class="form-select" [(ngModel)]="selectedCustomer" name="customer" (change)="onCustomerChange()">
-            <option value="" selected>Select</option>
-            <option *ngFor="let customer of customers" [value]="customer.acc_code">
+  <app-navbar></app-navbar>
+  <div class="container">
+    <form>
+      <div class="mb-3">
+        <label for="orderNumber" class="form-label">Order Number</label>
+        <input type="text" id="orderNumber" class="form-control" (input)="validateInput($event)" placeholder="Enter Alphanumeric value" />
+      </div>
+      <div class="mb-3">
+        <label for="orderDate" class="form-label">Date</label>
+        <input type="date" id="orderDate" class="form-control" min="2024-04-01" max="2025-03-31"
+          (change)="formatDate($event)">
+      </div>
+      <div class="mb-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Customer</mat-label>
+          <input type="text" matInput [formControl]="customerControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)" [displayWith]="displayFn">
+            <mat-option *ngFor="let customer of filteredOptions | async" [value]="customer">
               {{ customer.acc_name }}
-            </option>
-          </select>
-        </div>
-      
-        <div class="container mt-4" >
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- Display selected customer details -->
+        <div class="container mt-">
           <div *ngIf="selectedCustomerDetails" class="borderCustDetails container">
             <h5 class="mt-1">Customer Details</h5>
-            <hr/>
+            <hr />
             <p><strong>Account Name:</strong> {{ selectedCustomerDetails.acc_name }}</p>
-            <p><strong>Office Address:</strong> {{ selectedCustomerDetails.address?.office || 'N/A' }}</p>
-            <p><strong>City:</strong> {{ selectedCustomerDetails.address?.place?.city }}</p>
-            <p><strong>District:</strong> {{ selectedCustomerDetails.address?.place?.district?.name }}</p>
-            <p><strong>State:</strong> {{ selectedCustomerDetails.address?.place?.district?.state }}</p>
+            <p><strong>Address:</strong> {{ selectedCustomerDetails.address.office }}</p>
+            <p><strong>City:</strong> {{ selectedCustomerDetails.address.place.city }}</p>
+            <p><strong>District:</strong> {{ selectedCustomerDetails.address.place.district.name }}</p>
+            <p><strong>State:</strong> {{ selectedCustomerDetails.address.place.district.state }}</p>
           </div>
         </div>
-      </form>
+      </div>
+    </form>
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="I_id">
+          <th mat-header-cell *matHeaderCellDef> Sr.No </th>
+          <td mat-cell *matCellDef="let element"> {{element.I_id}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="I_name">
+          <th mat-header-cell *matHeaderCellDef> Item </th>
+          <td mat-cell *matCellDef="let element"> {{element.I_name}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="I_QtyUnit">
+          <th mat-header-cell *matHeaderCellDef> Unit </th>
+          <td mat-cell *matCellDef="let element"> {{element.I_QtyUnit}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Item_Qty">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element">
+            <input matInput type="number" [(ngModel)]="element.Item_Qty" (ngModelChange)="updateItemValue(element)" />
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="Item_Rate">
+          <th mat-header-cell *matHeaderCellDef> Rate </th>
+          <td mat-cell *matCellDef="let element">
+            <input matInput type="number" [(ngModel)]="element.Item_Rate" (ngModelChange)="updateItemValue(element)" />
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="Item_Value">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.Item_Value | number:'1.2-2'}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element">
+            <button class="btn btn-primary">Delete </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <div class="d-flex justify-content-between mt-3">
+        <p>Total Amount is </p>
+        <p>{{finalAmount | number:'1.2-2'}}</p>
+      </div>
+
+      <div class="mt-3 d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-success">Submit</button>
+      </div>
       
+
     </div>
   </div>
-  
+</div>
