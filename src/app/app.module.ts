@@ -17,13 +17,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatButtonModule} from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddItemComponent } from './component/add-item/add-item.component';
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    AddItemComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatOptionModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [
     provideAnimationsAsync()

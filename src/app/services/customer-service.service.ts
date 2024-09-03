@@ -8,12 +8,5 @@ export class CustomerServiceService {
 
   constructor( private http: HttpClient) { }
 
-  getCustomerByAcc_code(acc_code:any){
-    return this.http.get('http://localhost:3000/customer?acc_code='+acc_code)
-  }
-
-  getCustomer(){
-    return this.http.get('http://localhost:3000/customer')
-  }
 
 }
