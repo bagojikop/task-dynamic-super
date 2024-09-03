@@ -1,3 +1,5 @@
+import { IItem } from "./i-item";
+
 export interface Iresult {
 
     order_no: string;
@@ -8,10 +10,11 @@ export interface Iresult {
 }
 
 export interface Iitem {
-    Item_Id?: number;
-    Item_name: string;
+    Item_Id: number;
     Item_Unit: string;
     Item_Qty: number;
     Item_Rate: number;
     Item_Value: number;
+    Item:IItem
+
 }

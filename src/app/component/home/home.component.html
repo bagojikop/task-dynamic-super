@@ -4,7 +4,7 @@
     <form>
       <div class="mb-3">
         <label for="orderNumber" class="form-label">Order Number</label>
-        <input type="text" id="orderNumber" class="form-control" (input)="validateInput($event)"
+        <input type="text" id="orderNumber" class="form-control" [(ngModel)]="entity.order_no" (input)="validateInput($event)"
           placeholder="Enter Alphanumeric value" />
       </div>
       <div class="mb-3">

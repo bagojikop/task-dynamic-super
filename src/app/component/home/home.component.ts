@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import customerData from '../../jsonData/customer.json';
 import {Observable, of} from 'rxjs';
@@ -15,7 +15,7 @@ import { IItem } from '../../interfaces/i-item';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,AfterViewInit {
 
   finalAmount: number = 0;
   displayedColumns: string[] = ['I_id', 'I_name', 'I_QtyUnit', 'Item_Qty','Item_Rate','Item_Value','Action'];
@@ -33,6 +33,10 @@ export class HomeComponent implements OnInit {
   cust_id: number = 0;
   Amount: number = 0;
 
+  entity:Iresult= <Iresult>{};
+  reference:any;
+
+
   selectedItemQty: number = 0;
   selectedItemRate: number = 0;
 
@@ -49,6 +53,9 @@ export class HomeComponent implements OnInit {
   items: Iitem[] = [];
 
   constructor(private resultService :ResultServiceService) {}
+  ngAfterViewInit(): void {
+    this.reference.item={};
+  }
 
   ngOnInit(): void {
     this.filteredOptions = this.customerControl.valueChanges.pipe(
@@ -62,6 +69,9 @@ export class HomeComponent implements OnInit {
     this.itemsjson = this.loadItems(); // Load items here
   }
 
+  ngAfterViewInt():void{
+
+  }
   loadItems(): Observable<IItem[]> {
     return of(ItemJson);
   }
@@ -130,11 +140,12 @@ export class HomeComponent implements OnInit {
     if (this.selectedItemDetails) {
       const newItem: Iitem = {
         Item_Id: this.nextId++,
-        Item_name: this.selectedItemDetails.I_name,
+        // Item_name: this.selectedItemDetails.I_name,
         Item_Unit: this.selectedItemDetails.I_QtyUnit,
         Item_Qty: this.selectedItemQty,
         Item_Rate: this.selectedItemRate,
         Item_Value: this.calculateItemValue(this.selectedItemQty, this.selectedItemRate),
+        Item: <IItem>{}
       };
       
       this.items.push(newItem);
@@ -174,7 +185,7 @@ export class HomeComponent implements OnInit {
 
   // Update the dataSource with the new items array
   private updateTableData(): void {
-    this.dataSource.data = this.items;
+    this.dataSource.data = this.entity.Items;
     this.updateFinalAmount();
 
   }
